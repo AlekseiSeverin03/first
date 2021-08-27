@@ -7,6 +7,7 @@ enum OUTPUT_TEST
 	FALSE = 0,
 	TRUE
 };
+
 enum number_roots
 {
 	ZERO_ROOTS = 0,
@@ -14,11 +15,13 @@ enum number_roots
 	TWO_ROOTS, 
 	INF_ROOTS
 };
+
 const double PRECISION = 0.00001;
+
 enum error_codes 
 {
-	OK = 0, 
-	ERROR_WRONG_INPUT,
+	OK = 0,             	//< OK CODE
+	ERROR_WRONG_INPUT,      //< USER EN
 	ERROR_IN_TESTS, 
 };
 
@@ -32,7 +35,6 @@ enum error_codes
 //!
 //! @note function can compare NAN (NAN = NAN)  
 //-----------------------------------------------------------
-	
 int cmp_with_number_on_equality(double value1, double value2)
 {
 	if (!isnan(value1) && !isnan(value2))
@@ -64,8 +66,8 @@ int cmp_with_number_on_sign_less(double value1, double value2)
 //! Solve linear equation b*x + c = 0
 //! 
 //! @param [in]  b  b-coefficient
-//! @paran [in]  c  c-coefficient
-//! @param [out] x pointer to root
+//! @param [in]  c  c-coefficient
+//! @param [out] x  pointer to root
 //!
 //! @return number of roots
 //!
@@ -93,11 +95,11 @@ int SolveLinearEquation(double b, double c, double *x)
 //------------------------------------------------
 //! Testing function SolveLinearEquation
 //!
-//! @param [in]  testNum  test number
-//! @param [in]  b-coefficient
-//! @param [in]  c-coefficient
-//! @param [in]  true number roots
-//! @param [in]  true solution
+//! @param [in]  testNum   test number
+//! @param [in]  b         b-coefficient
+//! @param [in]  c         c-coefficient
+//! @param [in]  nRootsRef true number roots
+//! @param [in]  xref      true solution
 //! 
 //! @return result test (TRUE or FALSE)
 //------------------------------------------------
@@ -118,8 +120,7 @@ int UnitTestSolveLinear(int testNum, double b, double c, int nRootsRef, double x
 
 //----------------------------------------------------------------
 //! Solve square equation using discriminant a*x^2 + b*x + c = 0
-//!
-//! @param [in]  
+//!  
 //! @param [in]  a  a-coefficient
 //! @param [in]  b  b-coefficient
 //! @param [in]  c  c-coefficient
@@ -206,13 +207,13 @@ int SolveSquareEquation(double a, double b, double c, double *x1, double *x2)
 //-------------------------------------------------------------------------
 //! Testing function SolveSquareEquation and SolveSquareEquation_Discrim
 //!
-//! @param [in]  testNum  test number
-//! @param [in]  a-coefficient
-//! @param [in]  b-coefficient
-//! @param [in]  c-coefficient
-//! @param [in]  true number roots
-//! @param [in]  true first solution
-//! @param [in]  true second solution
+//! @param [in]  testNum   test number
+//! @param [in]  a         a-coefficient
+//! @param [in]  b         b-coefficient
+//! @param [in]  c         c-coefficient
+//! @param [in]  nRootsRef true number roots
+//! @param [in]  x1ref     true first solution
+//! @param [in]  x2ref     true second solution
 //! 
 //! @return result test (TRUE or FALSE)
 //--------------------------------------------------------------------------
