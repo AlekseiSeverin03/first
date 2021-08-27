@@ -161,8 +161,8 @@ int SolveSquareEquation_Discrim(double a, double b, double c, double *x1, double
 //!
 //! @return number of roots
 //!
-//! @note if square equation have one or two solutions then funtion will change value under pointer x1
-//!       if square equation have two solution then funtion will change value under pointer x2
+//! @note if square equation have one or two solutions then funtion will change value under pointer x1; 
+//!       if square equation have two solution then funtion will change value under pointer x2; 
 //!       if equation have infinite number of roots then RETURN: INF_ROOTS
 //--------------------------------------------------------------------------------------------------------
 
