@@ -2,13 +2,13 @@
 #include <math.h>
 #include <assert.h>
 
-enum output_tests
+enum OUTPUT_TESTS
 {
 	FALSE = 0,
 	TRUE
 };
 
-enum number_roots
+enum NUMBER_ROOTS
 {
 	ZERO_ROOTS = 0,
 	ONE_ROOT, 
@@ -18,7 +18,7 @@ enum number_roots
 
 const double PRECISION = 0.00001;
 
-enum output_fmain 
+enum OUTPUT_fMAIN 
 {
 	OK = 0,             	
 	ERROR_WRONG_INPUT,      
