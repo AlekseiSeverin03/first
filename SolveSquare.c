@@ -42,10 +42,12 @@ int isEqual (double value1, double value2)
 	{
 		return (fabs(value1 - value2) <= PRECISION);
 	}
+
 	if (isnan(value1) && isnan(value2))
 	{
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -60,6 +62,9 @@ int isEqual (double value1, double value2)
 
 int isLess (double value1, double value2)
 {
+	assert (!isnan(value1));
+	assert (!isnan(value2));
+
 	return value1 - value2 < -PRECISION;
 }
 
@@ -90,7 +95,9 @@ int SolveLinearEquation (double b, double c, double *x)
 	{
 		return ZERO_ROOTS;
 	}
+
 	*x = -c / b;
+	
 	return ONE_ROOT;
 }
 
@@ -110,6 +117,7 @@ int UnitTestSolveLinear (int testNum, double b, double c, int nRootsRef, double 
 {
 	double x = NAN;
 	int nRoots = SolveLinearEquation (b, c, &x);
+
 	if (nRoots != nRootsRef || !isEqual (x, xref))
 	{
 		printf("Test %d\n"
@@ -117,6 +125,7 @@ int UnitTestSolveLinear (int testNum, double b, double c, int nRootsRef, double 
 			   "Should be: %d, %lg\n\n", testNum, nRoots, x, nRootsRef, xref);
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -136,6 +145,13 @@ int UnitTestSolveLinear (int testNum, double b, double c, int nRootsRef, double 
 
 int SolveSquareEquation_Discrim (double a, double b, double c, double *x1, double *x2)
 {
+	assert (x1 != NULL);
+	assert (x2 != NULL);
+
+	assert (!isnan(a));
+	assert (!isnan(b));
+	assert (!isnan(c));
+
 	double discriminant = b * b - 4 * a * c;
 	if (isLess (discriminant, 0))
     {
@@ -146,10 +162,13 @@ int SolveSquareEquation_Discrim (double a, double b, double c, double *x1, doubl
          *x1 = -b / (2 * a);
          return ONE_ROOT;
     }
-    double sqrt_d = sqrt(discriminant);
-    *x1 = (-b - sqrt_d) / (2 * a);
+    
+	double sqrt_d = sqrt(discriminant);
+    
+	*x1 = (-b - sqrt_d) / (2 * a);
     *x2 = (-b + sqrt_d) / (2 * a);
-    return TWO_ROOTS;       
+    
+	return TWO_ROOTS;       
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -203,6 +222,7 @@ int SolveSquareEquation (double a, double b, double c, double *x1, double *x2)
 		*x2 = 0;
 		return TWO_ROOTS;
 	}
+	
 	return SolveSquareEquation_Discrim (a, b, c, x1, x2);
 }	
 
@@ -224,13 +244,16 @@ int UnitTestSolveSquareEquation (int testNum, double a, double b, double c, int 
 {
 	double x1 = NAN, x2 = NAN;
 	int nRoots = SolveSquareEquation (a, b, c, &x1, &x2);
+	
 	if (nRoots != nRootsRef || !isEqual (x1, x1ref) || !isEqual (x2, x2ref))
 	{
 		printf("Test %d\n"
 			   "nRoots = %d, x1 = %lg, x2 = %lg\n"
 			   "Should be: %d, %lg, %lg\n\n", testNum, nRoots, x1, x2, nRootsRef, x1ref, x2ref);
+		
 		return TRUE;
 	}
+	
 	return FALSE;
 } 
 
@@ -266,42 +289,54 @@ int main()
 		printf("NUMBER ERROR IN UnitTEST: %d\n\n", count_fail);
 		return ERROR_IN_TESTS;
 	}
-
+		
 	printf("Square equation solver: a * x ^ 2 + b * x + c = 0\n");
 	printf("Enter 3 numbers - coefficients square equation: a b c\n\n");
 
 	double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
+
 	int n = scanf("%lg %lg %lg", &a, &b, &c);	
+	
 	if (n != 3) 
-	{
+		{
 		printf("Error (wrong input)\n");
 		return ERROR_WRONG_INPUT;
-	}
+		}
 
 	/* nroots - количество корней квадратного уравнения. */
     int nroots = SolveSquareEquation (a, b, c, &x1, &x2);
 	switch (nroots) 
 	{
-		case ZERO_ROOTS: {
+		case ZERO_ROOTS: 
+		{
 			printf("No roots\n");
 			break;
 		}
-		case ONE_ROOT: {
+
+		case ONE_ROOT: 
+		{
 			printf("x = %lg\n", x1);
 			break;
 		}
-		case TWO_ROOTS: {
+
+		case TWO_ROOTS: 
+		{
 			printf("x1 = %lg , x2 = %lg\n", x1, x2);
 			break;
 		}
-		case INF_ROOTS: {
+
+		case INF_ROOTS: 
+		{
 			printf("Any number\n");
 			break;
 		}
-		default: {
+
+		default: 
+		{
 			/* неожиданное количество корней уравнения */
 			assert(0);
 		}
 	}
+
 	return OK;
 }
