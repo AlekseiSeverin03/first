@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+#include "input.h"
 
 enum OUTPUT_TESTS
 {
@@ -25,7 +26,22 @@ enum OUTPUT_fMAIN
 	ERROR_IN_TESTS, 
 };
 
-//----------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------
+//! Input three double 
+//! 
+//! @param [in] 1st double
+//! @param [in] 2nd double
+//! @param [in] 3rd double
+//!
+//! @return void
+//!
+//! @note from function you can terminate main program, for this you need to press 'y' 
+//--------------------------------------------------------------------------------------------------------
+
+void InputThreeDouble (double *a, double *b, double *c);
+
+//--------------------------------------------------------------------------------------------------------
 //! Checking if two value are equal
 //! 
 //! @param [in]  value1  first value
@@ -34,7 +50,7 @@ enum OUTPUT_fMAIN
 //! @return result comparison (TRUE or FALSE)
 //!
 //! @note function can compare NAN (NAN = NAN)  
-//-----------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int isEqual (double value1, double value2)
 {
@@ -51,14 +67,15 @@ int isEqual (double value1, double value2)
 	return FALSE;
 }
 
-//----------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------
 //! Checking if first value less second value
 //! 
 //! @param [in]  value1  first value
 //! @param [in]  value2  second value
 //!
 //! @return result comparison (TRUE or FALSE) 
-//-----------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int isLess (double value1, double value2)
 {
@@ -68,7 +85,7 @@ int isLess (double value1, double value2)
 	return value1 - value2 < -PRECISION;
 }
 
-//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 //! Solve linear equation b*x + c = 0
 //! 
 //! @param [in]  b  b-coefficient
@@ -78,7 +95,7 @@ int isLess (double value1, double value2)
 //! @return number of roots
 //!
 //! @note if linear equation have one solution then funtion will change value under pointer x
-//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int SolveLinearEquation (double b, double c, double *x) 
 {
@@ -101,7 +118,7 @@ int SolveLinearEquation (double b, double c, double *x)
 	return ONE_ROOT;
 }
 
-//------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 //! Testing function SolveLinearEquation
 //!
 //! @param [in]  testNum   test number
@@ -111,7 +128,7 @@ int SolveLinearEquation (double b, double c, double *x)
 //! @param [in]  xref      true solution
 //! 
 //! @return result test (TRUE or FALSE)
-//------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int UnitTestSolveLinear (int testNum, double b, double c, int nRootsRef, double xref) 
 {
@@ -123,25 +140,26 @@ int UnitTestSolveLinear (int testNum, double b, double c, int nRootsRef, double 
 		printf("Test %d\n"
 			   "nRoots = %d, x = %lg\n"
 			   "Should be: %d, %lg\n\n", testNum, nRoots, x, nRootsRef, xref);
+
 		return TRUE;
 	}
 
 	return FALSE;
 }
 
-//----------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 //! Solve square equation using discriminant a*x^2 + b*x + c = 0
 //!  
 //! @param [in]  a  a-coefficient
 //! @param [in]  b  b-coefficient
 //! @param [in]  c  c-coefficient
-//! @param [out] x1 poonter to first root
+//! @param [out] x1 pointer to first root
 //! @param [out] x2 pointer to second root
 //!
 //! @return number of roots
 //!
 //! @note discriminant solution
-//----------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int SolveSquareEquation_Discrim (double a, double b, double c, double *x1, double *x2)
 {
@@ -166,7 +184,7 @@ int SolveSquareEquation_Discrim (double a, double b, double c, double *x1, doubl
 	double sqrt_d = sqrt(discriminant);
     
 	*x1 = (-b - sqrt_d) / (2 * a);
-    *x2 = (-b + sqrt_d) / (2 * a);
+     	*x2 = (-b + sqrt_d) / (2 * a);
     
 	return TWO_ROOTS;       
 }
@@ -177,7 +195,7 @@ int SolveSquareEquation_Discrim (double a, double b, double c, double *x1, doubl
 //! @param [in]  a  a-coefficient
 //! @param [in]  b  b-coefficient
 //! @param [in]  c  c-coefficient
-//! @param [out] x1 poonter to first root
+//! @param [out] x1 pointer to first root
 //! @param [out] x2 pointer to second root
 //!
 //! @return number of roots
@@ -226,7 +244,7 @@ int SolveSquareEquation (double a, double b, double c, double *x1, double *x2)
 	return SolveSquareEquation_Discrim (a, b, c, x1, x2);
 }	
 
-//-------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 //! Testing function SolveSquareEquation and SolveSquareEquation_Discrim
 //!
 //! @param [in]  testNum   test number
@@ -238,7 +256,7 @@ int SolveSquareEquation (double a, double b, double c, double *x1, double *x2)
 //! @param [in]  x2ref     true second solution
 //! 
 //! @return result test (TRUE or FALSE)
-//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int UnitTestSolveSquareEquation (int testNum, double a, double b, double c, int nRootsRef, double x1ref, double x2ref)
 {
@@ -257,11 +275,11 @@ int UnitTestSolveSquareEquation (int testNum, double a, double b, double c, int 
 	return FALSE;
 } 
 
-//--------------------------------
+//--------------------------------------------------------------------------------------------------------
 //! Runing tests
 //!
 //! @return number failed tests
-//--------------------------------
+//--------------------------------------------------------------------------------------------------------
 
 int RunUnitTests (void)
 {
@@ -290,18 +308,11 @@ int main()
 		return ERROR_IN_TESTS;
 	}
 		
-	printf("Square equation solver: a * x ^ 2 + b * x + c = 0\n");
-	printf("Enter 3 numbers - coefficients square equation: a b c\n\n");
+	printf("This program solves square equation: a * x ^ 2 + b * x + c = 0\n");
 
 	double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
-	int n = scanf("%lg %lg %lg", &a, &b, &c);	
-	
-	if (n != 3) 
-		{
-		printf("Error (wrong input)\n");
-		return ERROR_WRONG_INPUT;
-		}
+	InputThreeDouble (&a, &b, &c);
 
 	/* nroots - количество корней квадратного уравнения. */
     int nroots = SolveSquareEquation (a, b, c, &x1, &x2);
