@@ -26,7 +26,6 @@ enum OUTPUT_fMAIN
 	ERROR_IN_TESTS, 
 };
 
-
 //--------------------------------------------------------------------------------------------------------
 //! Input three double 
 //! 
@@ -40,6 +39,52 @@ enum OUTPUT_fMAIN
 //--------------------------------------------------------------------------------------------------------
 
 void InputThreeDouble (double *a, double *b, double *c);
+
+//--------------------------------------------------------------------------------------------------------
+//! Output answer task
+//!
+//! @param [in] nroots number roots of equation
+//!
+//! @return void
+//!
+//! @note Output in stdout roots square equation
+//--------------------------------------------------------------------------------------------------------
+
+void OutputAnswer (int nroots, double *x1, double *x2)
+{
+	switch (nroots) 
+	{
+		case ZERO_ROOTS: 
+		{
+			printf("No roots\n");
+			break;
+		}
+
+		case ONE_ROOT: 
+		{
+			printf("x = %lg\n", *x1);
+			break;
+		}
+
+		case TWO_ROOTS: 
+		{
+			printf("x1 = %lg , x2 = %lg\n", *x1, *x2);
+			break;
+		}
+
+		case INF_ROOTS: 
+		{
+			printf("Any number\n");
+			break;
+		}
+
+		default: 
+		{
+			/* неожиданное количество корней уравнения */
+			assert(0);
+		}
+	}
+}
 
 //--------------------------------------------------------------------------------------------------------
 //! Checking if two value are equal
@@ -67,7 +112,6 @@ int isEqual (double value1, double value2)
 	return FALSE;
 }
 
-
 //--------------------------------------------------------------------------------------------------------
 //! Checking if first value less second value
 //! 
@@ -83,6 +127,58 @@ int isLess (double value1, double value2)
 	assert (!isnan(value2));
 
 	return value1 - value2 < -PRECISION;
+}
+
+//--------------------------------------------------------------------------------------------------------
+//! Function find max number of 2 double
+//!
+//! @param [in] x 1st double 
+//! @param [in] y 2nd double
+//!
+//! @return max of 2 double
+//--------------------------------------------------------------------------------------------------------
+
+double MaxModule_2_Double (double x, double y)
+{
+	return fabs (x) > fabs (y) ? x : y;
+}
+
+///--------------------------------------------------------------------------------------------------------
+//! Function find max number of 3 double
+//!
+//! @param [in] a 1st double 
+//! @param [in] b 2nd double
+//! @param [in] c 3rd double
+//!
+//! @return max of 3 double
+//--------------------------------------------------------------------------------------------------------
+
+double MaxModule_3_Double (double a, double b, double c)
+{
+	return MaxModule_2_Double (MaxModule_2_Double (a, b), MaxModule_2_Double (a, c));
+}
+
+//--------------------------------------------------------------------------------------------------------
+//! Division of small coefficients by the max them
+//!
+//! @param [in] a 1st coef
+//! @param [in] b 2nd coef
+//! @param [in] c 3rd coef
+//!
+//! @return void
+//!
+//! @note numbers is "small" if they less const PRECISION
+//--------------------------------------------------------------------------------------------------------
+
+void DivSmallCoefByMax (double *a, double *b, double *c)
+{
+	if (isEqual (*a, 0) && isEqual (*b, 0) && isEqual (*c, 0))
+	{
+		double max = MaxModule_3_Double (*a, *b, *c);
+		*a /= max;
+		*b /= max;
+		*c /= max;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -308,46 +404,19 @@ int main()
 		return ERROR_IN_TESTS;
 	}
 		
-	printf("This program solves square equation: a * x ^ 2 + b * x + c = 0\n");
+	printf("\nThis program solves square equation: a * x ^ 2 + b * x + c = 0\n");
 
-	double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
+	double a = 0, b = 0, c = 0;
 
 	InputThreeDouble (&a, &b, &c);
 
-	/* nroots - количество корней квадратного уравнения. */
+	DivSmallCoefByMax (&a, &b, &c);
+	
+	double x1 = 0, x2 = 0;
+	
     int nroots = SolveSquareEquation (a, b, c, &x1, &x2);
-	switch (nroots) 
-	{
-		case ZERO_ROOTS: 
-		{
-			printf("No roots\n");
-			break;
-		}
 
-		case ONE_ROOT: 
-		{
-			printf("x = %lg\n", x1);
-			break;
-		}
-
-		case TWO_ROOTS: 
-		{
-			printf("x1 = %lg , x2 = %lg\n", x1, x2);
-			break;
-		}
-
-		case INF_ROOTS: 
-		{
-			printf("Any number\n");
-			break;
-		}
-
-		default: 
-		{
-			/* неожиданное количество корней уравнения */
-			assert(0);
-		}
-	}
+	OutputAnswer (nroots, &x1, &x2);
 
 	return OK;
 }
