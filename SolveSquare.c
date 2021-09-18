@@ -414,7 +414,7 @@ int main()
 	
 	double x1 = 0, x2 = 0;
 	
-    int nroots = SolveSquareEquation (a, b, c, &x1, &x2);
+	int nroots = SolveSquareEquation (a, b, c, &x1, &x2);
 
 	OutputAnswer (nroots, &x1, &x2);
 
